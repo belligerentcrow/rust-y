@@ -48,3 +48,45 @@
 * ```const``` makes a variable constant -> instead of let. cant be mut
 
 * shadowing works with different types, and goes back to the previous instance of the name when the shadow-ee's scope is over. the keyword ```let``` must be used when shadowing.
+
+### primitive types 
+* there are 4 types of primary scalar types: **integers, floating-point, Booleans, characters**.
+    * **integers** default to ```i32```
+    * **floating points** default to ```f64``` (double precision)
+
+* to specify a type use the notation: ```let x: i64 = 214;``` or ```let y: f32 = 2.0;```
+
+* chars are specified with single quotes as opposed to strings. It uses UNICODE so it can represent more than ASCII: accented letters, chinese, japanese, korean characters, emojis, are characters. 
+
+### compound types
+
+* Tuple = ```let tup: (i32, f64, u8) = (500, 6.4, 1); 
+    * they can contain different types. each position has a type. they are FIXED IN SIZE. 
+* Tuples are single compounds, but it is possible to destructure them 
+    * ```let (x,y,z) = tup;``` then print the value of y lends 6.4
+    * you can also access an element by using the period: ```tup.0``` or ```tup.1```
+
+* A tuple with no values is an "unit". It represents an empty value / return type. it's written ```()```
+
+### Arrays 
+
+* ```let fib = [1,1,2,3,5,8,13,21,34,55,89];```
+* Elements inside an array must have the same type. Arrays also  have a FIXED size. 
+    * VECTORS are able to grow and shrink in size.
+* Use arrays when you're sure the number of them won't change.
+    * ex: array of 5 i32 elements = ```let a: [i32; 5] = [1,2,3,4,5];```
+    * array of 5 threes ```let a = [3; 5]; 
+
+### functions
+
+* they work very similarly as c++
+* you MUST declare the type of each function parameter.
+
+## Statements vs Expressions
+
+* A **Statement** is an instruction that performs an/some action/s and does not return a value
+    * An assignment is a statement: a let statement can't be assigned to another variable 
+    * A function definition is also a statement
+
+* An **Expression** evaluates to a resultant value. Rust is an expression-based language.
+
