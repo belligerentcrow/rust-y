@@ -103,3 +103,36 @@
 
 * if statements: 
 ``` if number < 5 { println!("Condition met"); } else { println!("Condition not met"); } ```
+
+* ifs can be used on the left of an assignment
+```let number = if condition { 5 } else { 6 };```
+* if the ```if``` and the ```else``` arms have value types that are incompatible then Rust will print an error. Rust must know at compile time what type the number variable is, definitively. It cannot be defined at run-time
+
+### Loops
+
+* Three types of loops: ```loop```, ```while```, ```for```.
+
+#### Loop loop
+
+* it executes a block of code over and over again forever or until we explicitly tell it to stop. 
+```fn main(){ loop { println!("again!"); }  };``` 
+    * this will keep printing forever.
+    * you can break out of the loop with, well, ```break;```
+    * ```continue``` lets you skip the next part of the code to go directly to the next loop iteration.
+
+* can be used for: 
+    * event listener, checking whether a thread has completed its job, like a +1 counter on a variable external to the loop itself
+
+* LOOP LABELS! 
+``` 'counting: loop { 
+        // etc etc etc
+        loop {
+            break 'counting_up;
+        }
+     }
+```
+
+#### While Loops
+
+#### Ifs 
+* only bool types.  
