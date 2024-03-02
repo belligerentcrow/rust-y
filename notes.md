@@ -32,6 +32,8 @@
 
 * ```match``` and ```arms``` and ```patterns``` --> very powerful features of rust. the match is made of arms: you can handle each one of them this way. 
 
+* Watch out for ```match``` statements!! they're like more powerful switches
+
 * Rust has a strong static type system, but it also has type inference. 
 
 * Rust has mnay number types, and unless specified it defaults to i32. Rust cannot compare a string and a number, but we can trim and parse to "convert" !! ```let guess: u32 = guess.trim().parse().expect("Error");
@@ -89,4 +91,15 @@
     * A function definition is also a statement
 
 * An **Expression** evaluates to a resultant value. Rust is an expression-based language.
+    * A math operation is an expression. It evaluates to a value. --> the result of the operation
+    * Calling functions also is an expression. 
 
+* Functions with return values work like this: 
+``` fn five() -> i32 { 5 }``` 
+    * you could also write ```return 5```
+    * do not put ;s in expressions like these
+
+### Control flow
+
+* if statements: 
+``` if number < 5 { println!("Condition met"); } else { println!("Condition not met"); } ```
