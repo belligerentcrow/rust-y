@@ -12,13 +12,16 @@ fn main(){
 }
 
 fn calc_fib(n : i32) -> i32{
-    println!("{n}");
+    
     if n<0 {return 0}
     else {
         match n {
-            1 | 2 => return 1,
-            3 => return 2,
-            _ => return calc_fib(n-1) + calc_fib(n-2)
+            1 | 2 => {println!("1");
+                    return 1},
+            3 => {println!("2");
+                    return 2},
+            _ => { println!("{} and {}",n-1,n-2);
+                 return calc_fib(n-1) + calc_fib(n-2) } 
         }
     }   
 }
