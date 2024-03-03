@@ -136,3 +136,100 @@
 
 #### Ifs 
 * only bool types.  
+
+
+## OWNERSHIP -- unique to Rust
+
+* a set of rules that govern how a rust program manages memory. 
+Some language have garbage collection that regularly looks for no-longer-used memory as the program runs, in others the programmer must explicitly allocate and free the memory.
+In Rust, memory is managed through a system of ownership with a set of rules that the compiler checks. If any of the rules are violated, the program won't compile, and none of ownership's feature will slow down the program while it's running. 
+
+In Rust, whether a value is on the stack or on the heap affects how the language behaves and why you need to make certain decisions. 
+
+Stack -> Last in, first out LIFO
+
+### Ownership rules
+
+1. Each value in Rust has an owner
+2. There can only be one owner at a time
+3. When the owner goes out of scope, the value will be dropped
+
+#### String type
+
+* String literals are immutable and they are fast and efficient when we need use fixed texts
+* String type elements are mutable. Their memory gets allocated differently and we cant put a blob of memory into the binary for each piece of text whose size is unknown at compiletime and whose size might change while running the program. 
+* Thus in order to support a mutable and growable piece of text, we allocate an amount of memory on the heap, unknown at compile time, to hold the contents. 
+* THUS: 
+    * The memory must be requested from the memory allocator at runtime
+    * We need a way of returning this memory to the allocator once we're done with the string 
+
+The first part is handled by us by calling ```String::from```. --> Requesting the memory it needs
+The second part is different. Doesnt use garbage collector but doesnt use a manual way to free memory: 
+
+**The memory is automatically returned once the variable that owns it goes out of scope.**
+    HOLY FUCKING BINGLE THIS IS GENIUS?!
+
+This means that when we copy a string to another string like ```let s1 = String::from("hello"); let s2 = s1;``` the string doesnt get copied but instead s2 points to the same index as s1 does, the index where the string hello is stored. 
+Rust does not copy the heap data as well. If it did, the operation ```s2 = s1``` would be very expensive in terms of runtime performance with bigger data
+But! When s2 and s1 go out of scope they would both free the same amount of memory leading to the double free error; freeing memory twice can lead to memory corruption --> security vulnerability 
+Thus, Rust considers **s1 as no longer valid**. 
+Thus instead of a copy, it's a *move*. s1 is *moved* s2. 
+
+If we actually want a copy we can use a method called ```clone```. 
+```
+let s1 = String::from("hello");
+let s2 = s1.clone();
+println!("{}! {}!",s1, s2);
+```
+
+* In this way the heap data DOES get copied. Code may be expensive.
+
+So what about the integer copy? It works and is valid because types such as integers have a known size at compile time and are stored entirely on the stack, so copies of the actual values are quick to make. Theres no need to clone. 
+
+There is a special annotation called ```Copy``` for 'fixed' types, (types whose size are defined at compile time and do not undergo mutation); if ```Copy``` is used, variables that use it do not move but are trivially copied
+
+Copy is implemented for 
+    * All integers. The boolean type. All floating points. Char. Tuples, if they only contain types that also implement Copy. 
+
+### REFERENCES 
+
+* What if we want to let a functon use a value but not take ownership? The answer is REFERENCES!
+
+``` let len = calc_len(&s1); 
+//[...]
+fn calc_len(s : &String) -> usize {
+    s.len() 
+}```
+
+the syntax of a reference lets us create a reference that refers to the value of a variable but does not own it. Because it does not won it, the value it points to will not be dropped when the reference stops being used. 
+* We call the action of creating a reference **borrowing**. 
+* Just as variables are immutable by default, so are references! We can't modify something we have a reference to. 
+
+* We CAN though use a mutable reference instead. 
+* The limitation of using a mutable reference is that you can only have ONE reference if you use a mutable one! This is made to prevent data races. 
+* It is possible to make a mutable reference variable to go out of scope: after a function scope is over, for example. We can use more mutable references, just not simultaneous ones.
+
+#### Dangling references
+
+* These are pointers that reference a location in memory that has been given to something else. This doesnt happen in Rust. If there is a reference to some data, the compiler ensures that the data will not go out of scope before the reference to the data does. 
+
+```
+let reference_to_nothing = dangle();
+//[...]
+fn dangle() -> &String {
+let s = String::from("hello");
+&s  }
+```
+
+* ^-- This isn't allowed. The code doesnt compile. 
+
+* At any given time, you can have either one mutable reference OR any number of immutable references. 
+* References must always be valid. 
+
+### SLICES
+
+&str = string literal, which is immutable 
+``` let s = "Hello world";```  is a string literal 
+```&s``` would be an immutable reference to a string literal 
+
+
