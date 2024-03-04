@@ -232,4 +232,14 @@ let s = String::from("hello");
 ``` let s = "Hello world";```  is a string literal 
 ```&s``` would be an immutable reference to a string literal 
 
+* Summary: **Ownership**, **Borrowing*, **slices** --> ensure memory safety in Rust programs at **Compile Time**. The 'Owner' of the data automatically cleans up data when the owner goes out of scope --> dont need to write more code to free up memory because the compliler does this work for me. 
 
+## STRUCTS AND STRUCTURES
+
+* a structs lets you package multiple related values that make up a meaningful group. it's like an object's data attributes. 
+* Different from tuples --> Here, you name each piece of data so it's clear what each thing means. You dont rely on the order of the data to access it. 
+* functions can be associated to structs (and are thus called methods) 
+* Structs and enums are the key building blocks for creating new types --> to use Rust's compile-time type checking.
+
+* we access the value of the struct by using the dot notation. ```user1.email``` to access the email of user1. If the instance is mutable --> we can change a value by using the dot notation. 
+* The entire instance must be mutable : Rust doesnt allow to mark only certain fields as mutable. 
